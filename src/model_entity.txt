@@ -1,0 +1,11 @@
+Account: username, email, password, verificationCode, enabled, id_user
+User: id, fullname, username, path_avatar, id_products_favorite, id_orders, id_billing_addresses
+Product: id, name, path_image, description, id_category, price, discount, price_discounted (->), id_demo_images, id_sizes, id_user_favorite
+Category: id, name, path_icon, id_products
+Size: id, size
+ImageDemo: id, image
+Order: id, id_user, id_billing_address, id_products, 
+BillingAddress: id, id_user, full_name, province, postal_code, country, id_shipping_options
+ShippingOptions: id, name, price
+Voucher: id, image, name, description, percent_discount, expiration_date, min_price_apply, max_price_discount, id_categories_apply
+
