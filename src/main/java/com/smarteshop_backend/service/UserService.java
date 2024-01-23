@@ -7,6 +7,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface UserService extends UserDetailsService {
-    FormGetUser getByUsername(String username) throws Exception;
     User save(User user);
+    User getByUsername(String username) throws Exception;
 }

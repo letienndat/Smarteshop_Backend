@@ -12,8 +12,8 @@ import java.util.List;
 @Data
 @Builder
 @Entity
-@Table(name = "categories")
-public class Category implements Serializable {
+@Table(name = "brands")
+public class Brand implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,10 +21,13 @@ public class Category implements Serializable {
     @NotBlank
     private String name;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @NotBlank
+    private String pathIcon;
+
+    @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)
     private List<Product> products;
 
-    @ManyToMany(mappedBy = "categoriesApply")
+    @ManyToMany(mappedBy = "brandsApply")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private List<Voucher> vouchers;

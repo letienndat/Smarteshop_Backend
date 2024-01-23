@@ -44,6 +44,16 @@ public class Voucher implements Serializable {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JoinTable(
+            name = "voucher_brand",
+            joinColumns = @JoinColumn(name = "id_voucher"),
+            inverseJoinColumns = @JoinColumn(name = "id_brand")
+    )
+    private List<Brand> brandsApply;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @JoinTable(
             name = "voucher_category",
             joinColumns = @JoinColumn(name = "id_voucher"),
             inverseJoinColumns = @JoinColumn(name = "id_category")

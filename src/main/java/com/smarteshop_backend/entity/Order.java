@@ -35,5 +35,5 @@ public class Order implements Serializable {
             joinColumns = @JoinColumn(name = "id_order"),
             inverseJoinColumns = @JoinColumn(name = "id_product")
     )
-    private List<Product> products;
+    private List<ProductInOrder> productInOrders;
 }

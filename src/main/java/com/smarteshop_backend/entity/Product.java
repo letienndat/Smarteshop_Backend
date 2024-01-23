@@ -28,6 +28,12 @@ public class Product implements Serializable {
     private String description;
 
     @ManyToOne
+    @JoinColumn(name = "id_brand")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Brand brand;
+
+    @ManyToOne
     @JoinColumn(name = "id_category")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
@@ -56,9 +62,4 @@ public class Product implements Serializable {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private List<User> userFavorites;
-
-    @ManyToMany(mappedBy = "products")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private List<Order> orders;
 }

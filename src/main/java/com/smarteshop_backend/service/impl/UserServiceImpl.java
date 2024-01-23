@@ -30,22 +30,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public FormGetUser getByUsername(String username) throws Exception {
+    public User getByUsername(String username) throws Exception {
         User user = userRepository.findByAccountUsername(username)
                 .orElseThrow(
                         () -> new Exception("Can not find user by username = " + username)
                 );
-        return new FormGetUser(
-                user.getId(),
-                user.getFullname(),
-                user.getAccount().getUsername(),
-                user.getAccount().getEmail(),
-                user.getAccount().getEnabled()
-        );
+        return user;
     }
 
     @Override
     public User save(User user) {
         return userRepository.save(user);
     }
+
+
 }

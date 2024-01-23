@@ -3,7 +3,6 @@ package com.smarteshop_backend.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.List;
 
@@ -12,20 +11,17 @@ import java.util.List;
 @Data
 @Builder
 @Entity
-@Table(name = "categories")
-public class Category implements Serializable {
+@Table(name = "roles")
+public class Role implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    private String name;
+    @Enumerated
+    private RoleName roleName;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private List<Product> products;
-
-    @ManyToMany(mappedBy = "categoriesApply")
+    @ManyToMany(mappedBy = "roles")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private List<Voucher> vouchers;
+    private List<Account> accounts;
 }

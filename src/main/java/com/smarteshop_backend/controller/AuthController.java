@@ -5,7 +5,10 @@ import com.smarteshop_backend.dto.response.FormGetUser;
 import com.smarteshop_backend.dto.response.MessageResponse;
 import com.smarteshop_backend.dto.response.TypeMessage;
 import com.smarteshop_backend.entity.Account;
+import com.smarteshop_backend.entity.Role;
+import com.smarteshop_backend.entity.RoleName;
 import com.smarteshop_backend.entity.User;
+import com.smarteshop_backend.service.RoleService;
 import com.smarteshop_backend.service.impl.AccountServiceImpl;
 import com.smarteshop_backend.service.impl.UserServiceImpl;
 import org.modelmapper.ModelMapper;
@@ -18,6 +21,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -27,6 +32,9 @@ public class AuthController {
 
     @Autowired
     private UserServiceImpl userService;
+
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     private AuthenticationProvider authenticationProvider;
@@ -42,7 +50,8 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         if (authentication.isAuthenticated()) {
-            FormGetUser formGetUser = userService.getByUsername(formAccount.getUsername());
+            User user = userService.getByUsername(formAccount.getUsername());
+            FormGetUser formGetUser = modelMapper.map(user, FormGetUser.class);
             if (!formGetUser.getAccountEnabled()) {
                 return ResponseEntity.ok(
                         new MessageResponse(TypeMessage.NOT_ACTIVE, formGetUser)
@@ -63,10 +72,20 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<MessageResponse> signup(@Valid @RequestBody FormSignUp formSignUp) throws Exception {
+    public ResponseEntity<MessageResponse> signup(@Valid @RequestBody FormSignUp formSignUp) {
         if (accountService.existsAccountByUsername(formSignUp.getUsername())) {
             return ResponseEntity.ok(
                     new MessageResponse(TypeMessage.FALD, "already_exist_account")
+            );
+        }
+
+        List<Role> roles = new ArrayList<>();
+        try {
+            Role role = roleService.findByRoleName(RoleName.USER);
+            roles.add(role);
+        } catch (Exception e) {
+            return ResponseEntity.ok(
+                    new MessageResponse(TypeMessage.FALD, "not_exist_role")
             );
         }
 
@@ -74,6 +93,7 @@ public class AuthController {
                 formSignUp.getUsername(),
                 formSignUp.getEmail(),
                 formSignUp.getPassword(),
+                roles,
                 null,
                 false,
                 null
@@ -101,7 +121,7 @@ public class AuthController {
         );
     }
 
-    @PostMapping("/active_account")
+    @PostMapping("/active-account")
     public ResponseEntity<MessageResponse> activeAccount(@Valid @RequestBody FormActiveAccount formActiveAccount) throws Exception {
         if (!accountService.existsAccountByUsername(formActiveAccount.getUsername())) {
             return ResponseEntity.ok(
@@ -125,14 +145,15 @@ public class AuthController {
             );
         }
 
-        FormGetUser formGetUser = userService.getByUsername(formActiveAccount.getUsername());
+        User user = userService.getByUsername(formActiveAccount.getUsername());
+        FormGetUser formGetUser = modelMapper.map(user, FormGetUser.class);
 
         return ResponseEntity.ok(
                 new MessageResponse(TypeMessage.SUCCESS, formGetUser)
         );
     }
 
-    @PostMapping("/send_code")
+    @PostMapping("/send-code")
     public ResponseEntity<MessageResponse> sendCodeVerifyAccount(@Valid @RequestBody FormSendCodeVerifyAccount formSendCodeVerifyAccount) throws Exception {
         if (!accountService.existsAccountByUsername(formSendCodeVerifyAccount.getUsername())) {
             return ResponseEntity.ok(
