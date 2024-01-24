@@ -11,5 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class MessageResponse {
     private Long typeMessage;
-    private Object valueMessage;
+    private String valueMessage;
+    private Object objectMessage;
 }

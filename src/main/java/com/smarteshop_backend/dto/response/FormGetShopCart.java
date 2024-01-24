@@ -5,11 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-public class FormSizeInProduct {
-    private String id;
-    private Double number;
+public class FormGetShopCart {
+    private Long id;
+    private List<FormProductInShopCart> formProductInShopCarts;
 }

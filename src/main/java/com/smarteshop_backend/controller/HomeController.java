@@ -51,7 +51,7 @@ public class HomeController {
         formGetHome.setFormProductHomes(formProductHomes);
 
         return ResponseEntity.ok(
-                new MessageResponse(TypeMessage.SUCCESS, formGetHome)
+                new MessageResponse(TypeMessage.SUCCESS, "load_home_complete", formGetHome)
         );
     }
 }

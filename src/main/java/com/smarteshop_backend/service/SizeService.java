@@ -7,5 +7,5 @@ import org.springframework.stereotype.Service;
 public interface SizeService {
     boolean checkSize(Double size);
     Size save(Size size);
-    Size findBySize(Double size);
+    Size findBySize(Double size) throws Exception;
 }

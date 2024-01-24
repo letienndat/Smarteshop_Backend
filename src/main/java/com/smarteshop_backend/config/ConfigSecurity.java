@@ -46,10 +46,12 @@ public class ConfigSecurity {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+                        .requestMatchers("/ws").permitAll()
                         .requestMatchers("/api/account/**").permitAll()
 //                        .requestMatchers("/api/role/**").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/*.js", "/*.css", "/*.html", "/swagger-ui/**", "/v3/api-docs/**", "/*.ico").permitAll()
                         .anyRequest().authenticated()
+//                        .anyRequest().permitAll()
                 )
                 .httpBasic(
                         Customizer.withDefaults()

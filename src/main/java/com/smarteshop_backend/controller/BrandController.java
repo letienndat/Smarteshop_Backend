@@ -3,8 +3,8 @@ package com.smarteshop_backend.controller;
 import com.smarteshop_backend.dto.request.FormAddBrand;
 import com.smarteshop_backend.dto.response.*;
 import com.smarteshop_backend.entity.Brand;
-import com.smarteshop_backend.entity.Category;
 import com.smarteshop_backend.service.BrandService;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @EnableMethodSecurity
@@ -30,7 +29,7 @@ public class BrandController {
     public ResponseEntity<MessageResponse> addBrand(@Valid @RequestBody FormAddBrand formAddBrand) {
         if (brandService.checkName(formAddBrand.getName())) {
             return ResponseEntity.ok(
-                    new MessageResponse(TypeMessage.FALD, "already_exists_brand_name")
+                    new MessageResponse(TypeMessage.FALD, "already_exists_brand_name", null)
             );
         }
 
@@ -41,7 +40,7 @@ public class BrandController {
         formGetBrand.setFormGetProductInBrands(List.of());
 
         return ResponseEntity.ok(
-                new MessageResponse(TypeMessage.SUCCESS, formGetBrand)
+                new MessageResponse(TypeMessage.SUCCESS, "add_brand_complete", formGetBrand)
         );
     }
 
@@ -61,7 +60,7 @@ public class BrandController {
                     }).toList();
 
             return ResponseEntity.ok(
-                    new MessageResponse(TypeMessage.SUCCESS, formGetBrands)
+                    new MessageResponse(TypeMessage.SUCCESS, "response_success", formGetBrands)
             );
         }
 
@@ -75,11 +74,11 @@ public class BrandController {
             formGetBrand.setFormGetProductInBrands(formGetProductInBrands);
 
             return ResponseEntity.ok(
-                    new MessageResponse(TypeMessage.SUCCESS, formGetBrand)
+                    new MessageResponse(TypeMessage.SUCCESS, "response_success", formGetBrand)
             );
         } catch (Exception e) {
             return ResponseEntity.ok(
-                    new MessageResponse(TypeMessage.FALD, "not_exists_brand_name")
+                    new MessageResponse(TypeMessage.FALD, "not_exists_brand_name", null)
             );
         }
     }

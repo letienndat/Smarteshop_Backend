@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Builder
-public class FormSizeInProduct {
-    private String id;
-    private Double number;
+public class FormGetProductInFavorites {
+    private Long id;
+    private String name;
 }

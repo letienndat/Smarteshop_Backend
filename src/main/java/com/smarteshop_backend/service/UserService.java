@@ -9,4 +9,5 @@ import org.springframework.stereotype.Service;
 public interface UserService extends UserDetailsService {
     User save(User user);
     User getByUsername(String username) throws Exception;
+    boolean checkIdProductFavorite(Long id);
 }

@@ -17,6 +17,7 @@ public class ShopCart implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OrderBy("updateAt DESC")
     @OneToMany(mappedBy = "shopCart", cascade = CascadeType.ALL)
     private List<ProductInShopCart> productInShopCarts;
 }

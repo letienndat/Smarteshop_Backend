@@ -7,6 +7,7 @@ import com.smarteshop_backend.dto.response.TypeMessage;
 import com.smarteshop_backend.entity.Role;
 import com.smarteshop_backend.entity.RoleName;
 import com.smarteshop_backend.service.RoleService;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.validation.Valid;
 
 @EnableMethodSecurity
 @RestController
@@ -44,14 +43,14 @@ public class RoleController {
                 break;
             default:
                 return ResponseEntity.ok(
-                        new MessageResponse(TypeMessage.FALD, "add_role_fail_only_user_or_admin")
+                        new MessageResponse(TypeMessage.FALD, "add_role_fail_only_user_or_admin", null)
                 );
         }
         boolean checkExistsRole = roleService.checkRoleName(role.getRoleName());
 
         if (checkExistsRole) {
             return ResponseEntity.ok(
-                    new MessageResponse(TypeMessage.FALD, "already_role_name")
+                    new MessageResponse(TypeMessage.FALD, "already_role_name", null)
             );
         }
 
@@ -59,7 +58,7 @@ public class RoleController {
         FormGetRole formGetRole = modelMapper.map(roleSaved, FormGetRole.class);
 
         return ResponseEntity.ok(
-                new MessageResponse(TypeMessage.SUCCESS, formGetRole)
+                new MessageResponse(TypeMessage.SUCCESS, "add_role_complete", formGetRole)
         );
     }
 }

@@ -1,10 +1,10 @@
 package com.smarteshop_backend.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.List;
 
@@ -62,4 +62,10 @@ public class Product implements Serializable {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private List<User> userFavorites;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ProductInShopCart> productInShopCarts;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ProductInOrder> productInOrders;
 }

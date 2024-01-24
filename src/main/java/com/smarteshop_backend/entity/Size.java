@@ -1,9 +1,9 @@
 package com.smarteshop_backend.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
-import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class Size implements Serializable {
     private Long id;
 
     @NotEmpty
-    private Double size;
+    private Double number;
 
     @ManyToMany(mappedBy = "sizes")
     @EqualsAndHashCode.Exclude

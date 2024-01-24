@@ -13,7 +13,7 @@ public class SizeServiceImpl implements SizeService {
 
     @Override
     public boolean checkSize(Double size) {
-        return sizeRepository.existsBySize(size);
+        return sizeRepository.existsByNumber(size);
     }
 
     @Override
@@ -22,7 +22,7 @@ public class SizeServiceImpl implements SizeService {
     }
 
     @Override
-    public Size findBySize(Double size) {
-        return sizeRepository.findBySize(size);
+    public Size findBySize(Double size) throws Exception {
+        return sizeRepository.findByNumber(size).orElseThrow(() -> new Exception("Cannot find size with size = " + size));
     }
 }

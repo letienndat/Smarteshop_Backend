@@ -1,6 +1,8 @@
 package com.smarteshop_backend.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.io.Serializable;
@@ -16,14 +18,18 @@ public class ProductInOrder implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_product")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Product product;
 
     @OneToOne
     @JoinColumn(name = "id_size")
     private Size size;
 
+    @NotNull(message = "Quantity is required")
+    @Min(value = 1, message = "Quantity must be a positive number")
     private Integer quantity;
 
     @ManyToOne

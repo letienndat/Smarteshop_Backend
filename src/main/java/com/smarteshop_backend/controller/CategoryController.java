@@ -6,6 +6,7 @@ import com.smarteshop_backend.dto.response.MessageResponse;
 import com.smarteshop_backend.dto.response.TypeMessage;
 import com.smarteshop_backend.entity.Category;
 import com.smarteshop_backend.service.CategoryService;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @EnableMethodSecurity
@@ -34,7 +34,7 @@ public class CategoryController {
     public ResponseEntity<MessageResponse> addCategory(@Valid @RequestBody FormAddCategory formAddCategory) {
         if (categoryService.checkName(formAddCategory.getName())) {
             return ResponseEntity.ok(
-                    new MessageResponse(TypeMessage.FALD, "already_exists_category_name")
+                    new MessageResponse(TypeMessage.FALD, "already_exists_category_name", null)
             );
         }
 
@@ -45,7 +45,7 @@ public class CategoryController {
         formGetCategory.setFormGetProductInCategories(List.of());
 
         return ResponseEntity.ok(
-                new MessageResponse(TypeMessage.SUCCESS, formGetCategory)
+                new MessageResponse(TypeMessage.SUCCESS, "add_category_complete", formGetCategory)
         );
     }
 }

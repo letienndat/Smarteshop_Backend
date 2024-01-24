@@ -9,7 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Builder
-public class FormSizeInProduct {
-    private String id;
-    private Double number;
+public class FormGetProductInShopCart {
+    private Long id;
+    private Long productId;
+    private String productName;
+    private Double sizeNumber;
+    private Integer quantity;
 }

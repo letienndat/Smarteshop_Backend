@@ -9,6 +9,7 @@ import com.smarteshop_backend.service.RoleService;
 import com.smarteshop_backend.service.ShopCartService;
 import com.smarteshop_backend.service.impl.AccountServiceImpl;
 import com.smarteshop_backend.service.impl.UserServiceImpl;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,11 +55,11 @@ public class AuthController {
             FormGetUser formGetUser = modelMapper.map(user, FormGetUser.class);
             if (!formGetUser.getAccountEnabled()) {
                 return ResponseEntity.ok(
-                        new MessageResponse(TypeMessage.NOT_ACTIVE, formGetUser)
+                        new MessageResponse(TypeMessage.NOT_ACTIVE, "account_is_not_active", formGetUser)
                 );
             }
             return ResponseEntity.ok(
-                    new MessageResponse(TypeMessage.SUCCESS, formGetUser)
+                    new MessageResponse(TypeMessage.SUCCESS, "login_complete", formGetUser)
             );
         }
 
@@ -67,7 +67,8 @@ public class AuthController {
                 .body(
                         new MessageResponse(
                                 TypeMessage.FALD,
-                                "validate_fail"
+                                "validate_fail",
+                                null
                         )
                 );
     }
@@ -76,7 +77,7 @@ public class AuthController {
     public ResponseEntity<MessageResponse> signup(@Valid @RequestBody FormSignUp formSignUp) {
         if (accountService.existsAccountByUsername(formSignUp.getUsername())) {
             return ResponseEntity.ok(
-                    new MessageResponse(TypeMessage.FALD, "already_exist_account")
+                    new MessageResponse(TypeMessage.FALD, "already_exist_account", null)
             );
         }
 
@@ -86,7 +87,7 @@ public class AuthController {
             roles.add(role);
         } catch (Exception e) {
             return ResponseEntity.ok(
-                    new MessageResponse(TypeMessage.FALD, "not_exist_role")
+                    new MessageResponse(TypeMessage.FALD, "not_exist_role", null)
             );
         }
 
@@ -119,7 +120,7 @@ public class AuthController {
         FormGetUser formGetUser = modelMapper.map(createUser, FormGetUser.class);
 
         return ResponseEntity.ok(
-                new MessageResponse(TypeMessage.SUCCESS, formGetUser)
+                new MessageResponse(TypeMessage.SUCCESS, "signup_complete", formGetUser)
         );
     }
 
@@ -127,7 +128,7 @@ public class AuthController {
     public ResponseEntity<MessageResponse> activeAccount(@Valid @RequestBody FormActiveAccount formActiveAccount) throws Exception {
         if (!accountService.existsAccountByUsername(formActiveAccount.getUsername())) {
             return ResponseEntity.ok(
-                    new MessageResponse(TypeMessage.FALD, "not_exist_user")
+                    new MessageResponse(TypeMessage.FALD, "not_exist_user", null)
             );
         }
 
@@ -135,7 +136,7 @@ public class AuthController {
 
         if (accountFound.getEnabled()) {
             return ResponseEntity.ok(
-                    new MessageResponse(TypeMessage.FALD, "account_already_confirmed")
+                    new MessageResponse(TypeMessage.FALD, "account_already_confirmed", null)
             );
         }
 
@@ -143,7 +144,7 @@ public class AuthController {
 
         if (!checkCode) {
             return ResponseEntity.ok(
-                    new MessageResponse(TypeMessage.FALD, "not_validate_code")
+                    new MessageResponse(TypeMessage.FALD, "not_validate_code", null)
             );
         }
 
@@ -155,7 +156,7 @@ public class AuthController {
         FormGetUser formGetUser = modelMapper.map(userSaved, FormGetUser.class);
 
         return ResponseEntity.ok(
-                new MessageResponse(TypeMessage.SUCCESS, formGetUser)
+                new MessageResponse(TypeMessage.SUCCESS, "active_account_complete", formGetUser)
         );
     }
 
@@ -163,7 +164,7 @@ public class AuthController {
     public ResponseEntity<MessageResponse> sendCodeVerifyAccount(@Valid @RequestBody FormSendCodeVerifyAccount formSendCodeVerifyAccount) throws Exception {
         if (!accountService.existsAccountByUsername(formSendCodeVerifyAccount.getUsername())) {
             return ResponseEntity.ok(
-                    new MessageResponse(TypeMessage.FALD, "not_exist_user")
+                    new MessageResponse(TypeMessage.FALD, "not_exist_user", null)
             );
         }
 
@@ -171,14 +172,14 @@ public class AuthController {
 
         if (accountFound.getEnabled()) {
             return ResponseEntity.ok(
-                    new MessageResponse(TypeMessage.FALD, "account_already_confirmed")
+                    new MessageResponse(TypeMessage.FALD, "account_already_confirmed", null)
             );
         }
 
         accountService.resendVerificationEmail(accountFound);
 
         return ResponseEntity.ok(
-                new MessageResponse(TypeMessage.SUCCESS, "send_code_to_mail_ok")
+                new MessageResponse(TypeMessage.SUCCESS, "send_code_to_mail_ok", null)
         );
     }
 }

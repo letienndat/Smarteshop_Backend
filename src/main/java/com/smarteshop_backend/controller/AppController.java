@@ -42,11 +42,11 @@ public class AppController {
             formGetApp.setNumberProductFavorite(user.getProductFavorites().size());
 
             return ResponseEntity.ok(
-                    new MessageResponse(TypeMessage.SUCCESS, formGetApp)
+                    new MessageResponse(TypeMessage.SUCCESS, "response_complete", formGetApp)
             );
         } catch (Exception e) {
             return ResponseEntity.ok(
-                    new MessageResponse(TypeMessage.FALD, "can_not_get_data_app")
+                    new MessageResponse(TypeMessage.FALD, "can_not_get_data_app", null)
             );
         }
     }

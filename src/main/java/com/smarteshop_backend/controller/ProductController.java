@@ -4,6 +4,7 @@ import com.smarteshop_backend.dto.request.FormAddProduct;
 import com.smarteshop_backend.dto.response.*;
 import com.smarteshop_backend.entity.*;
 import com.smarteshop_backend.service.*;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,14 +43,14 @@ public class ProductController {
         Category category = categoryService.findById(formAddProduct.getIdCategory());
         if (category == null) {
             return ResponseEntity.ok(
-                    new MessageResponse(TypeMessage.FALD, "not_exists_category_name")
+                    new MessageResponse(TypeMessage.FALD, "not_exists_category_name", null)
             );
         }
 
         Brand brand = brandService.findById(formAddProduct.getIdBrand());
         if (brand == null) {
             return ResponseEntity.ok(
-                    new MessageResponse(TypeMessage.SUCCESS, "not_exists_brand_name")
+                    new MessageResponse(TypeMessage.FALD, "not_exists_brand_name", null)
             );
         }
 
@@ -65,7 +65,9 @@ public class ProductController {
                 formAddProduct.getDiscount(),
                 null,
                 null,
-                new ArrayList<>()
+                new ArrayList<>(),
+                null,
+                null
         );
 
         List<ImageDemo> imageDemos = new ArrayList<>();
@@ -75,15 +77,21 @@ public class ProductController {
         });
 
         List<Size> sizes = new ArrayList<>();
-        formAddProduct.getSizes().forEach(size -> {
+        for (Double size : formAddProduct.getSizes()) {
             Size sizeSaved = null;
             if (!sizeService.checkSize(size)) {
                 sizeSaved = new Size(null, size, null);
             } else {
-                sizeSaved = sizeService.findBySize(size);
+                try {
+                    sizeSaved = sizeService.findBySize(size);
+                } catch (Exception e) {
+                    return ResponseEntity.ok(
+                            new MessageResponse(TypeMessage.FALD, "not_exists_size", null)
+                    );
+                }
             }
             sizes.add(sizeSaved);
-        });
+        }
 
         product.setImageDemos(imageDemos);
         product.setSizes(sizes);
@@ -111,7 +119,7 @@ public class ProductController {
         formGetProduct.setFormUserFavoriteInProducts(formUserFavoriteInProducts);
 
         return ResponseEntity.ok(
-                new MessageResponse(TypeMessage.SUCCESS, formGetProduct)
+                new MessageResponse(TypeMessage.SUCCESS, "add_product_complete", formGetProduct)
         );
     }
 
@@ -140,11 +148,11 @@ public class ProductController {
             formGetProduct.setFormUserFavoriteInProducts(formUserFavoriteInProducts);
 
             return ResponseEntity.ok(
-                    new MessageResponse(TypeMessage.SUCCESS, formGetProduct)
+                    new MessageResponse(TypeMessage.SUCCESS, "response_success", formGetProduct)
             );
         } catch (Exception e) {
             return ResponseEntity.ok(
-                    new MessageResponse(TypeMessage.SUCCESS, "not_exists_product_id")
+                    new MessageResponse(TypeMessage.FALD, "not_exists_product_id", null)
             );
         }
     }

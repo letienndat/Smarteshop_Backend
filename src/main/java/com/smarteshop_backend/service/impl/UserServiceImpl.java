@@ -1,6 +1,5 @@
 package com.smarteshop_backend.service.impl;
 
-import com.smarteshop_backend.dto.response.FormGetUser;
 import com.smarteshop_backend.entity.User;
 import com.smarteshop_backend.repository.UserRepository;
 import com.smarteshop_backend.security.CustomUserDetails;
@@ -43,5 +42,8 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-
+    @Override
+    public boolean checkIdProductFavorite(Long id) {
+        return userRepository.existsByProductFavoritesId(id);
+    }
 }
