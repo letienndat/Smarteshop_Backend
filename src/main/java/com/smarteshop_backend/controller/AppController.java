@@ -45,7 +45,6 @@ public class AppController {
                     new MessageResponse(TypeMessage.SUCCESS, formGetApp)
             );
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.ok(
                     new MessageResponse(TypeMessage.FALD, "can_not_get_data_app")
             );
