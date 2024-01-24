@@ -46,12 +46,12 @@ public class HomeController {
                     .toList();
         }
 
-        FormHomeLoad formHomeLoad = modelMapper.map(user, FormHomeLoad.class);
-        formHomeLoad.setFormBrandInHomes(formBrandInHomes);
-        formHomeLoad.setFormProductHomes(formProductHomes);
+        FormGetHome formGetHome = modelMapper.map(user, FormGetHome.class);
+        formGetHome.setFormBrandInHomes(formBrandInHomes);
+        formGetHome.setFormProductHomes(formProductHomes);
 
         return ResponseEntity.ok(
-                new MessageResponse(TypeMessage.SUCCESS, formHomeLoad)
+                new MessageResponse(TypeMessage.SUCCESS, formGetHome)
         );
     }
 }

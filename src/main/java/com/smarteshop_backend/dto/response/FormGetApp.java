@@ -11,12 +11,11 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Builder
-public class FormHomeLoad {
+public class FormGetApp {
     private Long id;
-    private String fullname;
     private String accountUsername;
     private String accountEmail;
-    private String pathAvatar;
-    private List<FormBrandInHome> formBrandInHomes;
-    private List<FormProductHome> formProductHomes;
+    private List<FormRoleInApp> formRoleInApps;
+    private Integer numberProductShopCart;
+    private Integer numberProductFavorite;
 }

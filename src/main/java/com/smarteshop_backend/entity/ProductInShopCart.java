@@ -3,15 +3,13 @@ package com.smarteshop_backend.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.io.Serializable;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
 @Entity
-@Table(name = "product_in_order")
-public class ProductInOrder implements Serializable {
+@Table(name = "product_in_shop_cart")
+public class ProductInShopCart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,8 +25,8 @@ public class ProductInOrder implements Serializable {
     private Integer quantity;
 
     @ManyToOne
-    @JoinColumn(name = "id_order")
+    @JoinColumn(name = "id_shop_cart")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private Order order;
+    private ShopCart shopCart;
 }

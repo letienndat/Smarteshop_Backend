@@ -38,4 +38,6 @@ public class BillingAddress implements Serializable {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private User user;
+
+    private boolean saved;
 }

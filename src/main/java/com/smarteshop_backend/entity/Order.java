@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -27,13 +28,21 @@ public class Order implements Serializable {
     @JoinColumn(name = "id_billing_address")
     private BillingAddress billingAddress;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @JoinTable(
-            name = "order_product",
-            joinColumns = @JoinColumn(name = "id_order"),
-            inverseJoinColumns = @JoinColumn(name = "id_product")
-    )
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<ProductInOrder> productInOrders;
+
+    @Enumerated(EnumType.STRING)
+    private PaymentOption paymentOption;
+
+    @OneToOne
+    @JoinColumn(name = "id_voucher")
+    private Voucher voucher;
+
+    private Double subTotal;
+
+    private Double totalPayment;
+
+    private Double amountReduced;
+
+    private Date dateOrder;
 }

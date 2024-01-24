@@ -24,6 +24,9 @@ public class Voucher implements Serializable {
     private String pathImage;
 
     @NotBlank
+    private String code;
+
+    @NotBlank
     private String name;
 
     private String description;

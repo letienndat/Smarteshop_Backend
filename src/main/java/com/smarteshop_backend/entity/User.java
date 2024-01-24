@@ -43,4 +43,8 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<BillingAddress> billingAddresses;
+
+    @OneToOne
+    @JoinColumn(name = "id_shop_cart")
+    private ShopCart shopCart;
 }

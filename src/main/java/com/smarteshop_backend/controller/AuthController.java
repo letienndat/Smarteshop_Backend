@@ -4,11 +4,9 @@ import com.smarteshop_backend.dto.request.*;
 import com.smarteshop_backend.dto.response.FormGetUser;
 import com.smarteshop_backend.dto.response.MessageResponse;
 import com.smarteshop_backend.dto.response.TypeMessage;
-import com.smarteshop_backend.entity.Account;
-import com.smarteshop_backend.entity.Role;
-import com.smarteshop_backend.entity.RoleName;
-import com.smarteshop_backend.entity.User;
+import com.smarteshop_backend.entity.*;
 import com.smarteshop_backend.service.RoleService;
+import com.smarteshop_backend.service.ShopCartService;
 import com.smarteshop_backend.service.impl.AccountServiceImpl;
 import com.smarteshop_backend.service.impl.UserServiceImpl;
 import org.modelmapper.ModelMapper;
@@ -35,6 +33,9 @@ public class AuthController {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private ShopCartService shopCartService;
 
     @Autowired
     private AuthenticationProvider authenticationProvider;
@@ -106,6 +107,7 @@ public class AuthController {
                 "",
                 null,
                 null,
+                null,
                 null
         );
 
@@ -146,7 +148,11 @@ public class AuthController {
         }
 
         User user = userService.getByUsername(formActiveAccount.getUsername());
-        FormGetUser formGetUser = modelMapper.map(user, FormGetUser.class);
+        ShopCart shopCartSaved = shopCartService.save(new ShopCart(null, new ArrayList<>()));
+        user.setShopCart(shopCartSaved);
+        user.setProductFavorites(new ArrayList<>());
+        User userSaved = userService.save(user);
+        FormGetUser formGetUser = modelMapper.map(userSaved, FormGetUser.class);
 
         return ResponseEntity.ok(
                 new MessageResponse(TypeMessage.SUCCESS, formGetUser)

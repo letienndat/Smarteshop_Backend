@@ -47,6 +47,7 @@ public class ConfigSecurity {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
                         .requestMatchers("/api/account/**").permitAll()
+//                        .requestMatchers("/api/role/**").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/*.js", "/*.css", "/*.html", "/swagger-ui/**", "/v3/api-docs/**", "/*.ico").permitAll()
                         .anyRequest().authenticated()
                 )

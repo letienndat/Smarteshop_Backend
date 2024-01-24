@@ -11,17 +11,12 @@ import java.util.List;
 @Data
 @Builder
 @Entity
-@Table(name = "roles")
-public class Role implements Serializable {
+@Table(name = "shop_cart")
+public class ShopCart implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private RoleName roleName;
-
-    @ManyToMany(mappedBy = "roles")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private List<Account> accounts;
+    @OneToMany(mappedBy = "shopCart", cascade = CascadeType.ALL)
+    private List<ProductInShopCart> productInShopCarts;
 }
