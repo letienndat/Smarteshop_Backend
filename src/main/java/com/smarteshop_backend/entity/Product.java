@@ -1,8 +1,7 @@
 package com.smarteshop_backend.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.io.Serializable;
@@ -39,10 +38,13 @@ public class Product implements Serializable {
     @ToString.Exclude
     private Category category;
 
-    @NotEmpty
+    @NotNull
+    @DecimalMin(value = "0.0", inclusive = true)
     private Double price;
 
-    @NotEmpty
+    @NotNull
+    @DecimalMin(value = "0.0", inclusive = true)
+    @DecimalMax(value = "100.0", inclusive = true)
     private Double discount;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)

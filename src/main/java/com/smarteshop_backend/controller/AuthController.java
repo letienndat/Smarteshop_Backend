@@ -17,6 +17,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/auth")
+@Validated
 public class AuthController {
     @Autowired
     private AccountServiceImpl accountService;
@@ -109,6 +111,7 @@ public class AuthController {
                 null,
                 null,
                 null,
+                null,
                 null
         );
 
@@ -152,6 +155,7 @@ public class AuthController {
         ShopCart shopCartSaved = shopCartService.save(new ShopCart(null, new ArrayList<>()));
         user.setShopCart(shopCartSaved);
         user.setProductFavorites(new ArrayList<>());
+        user.setVouchers(new ArrayList<>());
         User userSaved = userService.save(user);
         FormGetUser formGetUser = modelMapper.map(userSaved, FormGetUser.class);
 

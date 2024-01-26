@@ -11,9 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Builder
-public class FormGetShopCart {
-    private Long userId;
-    private String username;
+public class FormGetFavorites {
     private Long id;
-    private List<FormProductInShopCart> formProductInShopCarts;
+    private String accountUsername;
+    private List<FormGetProductInFavorites> formGetProductInFavorites;
 }

@@ -5,15 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-public class FormGetShopCart {
-    private Long userId;
-    private String username;
+public class FormGetBillingAddress {
     private Long id;
-    private List<FormProductInShopCart> formProductInShopCarts;
+    private Long userId;
+    private String fullname;
+    private String province;
+    private String postalCode;
+    private String country;
 }

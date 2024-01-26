@@ -47,4 +47,14 @@ public class User implements Serializable {
     @OneToOne
     @JoinColumn(name = "id_shop_cart")
     private ShopCart shopCart;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @JoinTable(
+            name = "user_voucher",
+            joinColumns = @JoinColumn(name = "id_user"),
+            inverseJoinColumns = @JoinColumn(name = "id_voucher")
+    )
+    private List<Voucher> vouchers;
 }

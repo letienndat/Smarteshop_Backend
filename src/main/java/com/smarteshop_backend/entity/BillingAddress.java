@@ -26,18 +26,12 @@ public class BillingAddress implements Serializable {
     @NotBlank
     private String postalCode;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Country country;
-
-    @OneToOne
-    @JoinColumn(name = "id_shipping_option")
-    private ShippingOption shippingOption;
 
     @ManyToOne
     @JoinColumn(name = "id_user")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private User user;
-
-    private boolean saved;
 }

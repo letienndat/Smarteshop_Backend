@@ -38,4 +38,9 @@ public class BrandServiceImpl implements BrandService {
     public Brand findByName(String name) throws Exception {
         return brandRepository.findByName(name).orElseThrow(() -> new Exception("Cannot brand with name = " + name));
     }
+
+    @Override
+    public List<Brand> findByIdIn(List<Long> ids) {
+        return brandRepository.findByIdIn(ids);
+    }
 }

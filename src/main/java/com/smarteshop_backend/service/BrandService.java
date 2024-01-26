@@ -12,4 +12,5 @@ public interface BrandService {
     Brand findById(Long id) throws Exception;
     boolean checkName(String name);
     Brand findByName(String name) throws Exception;
+    List<Brand> findByIdIn(List<Long> ids);
 }

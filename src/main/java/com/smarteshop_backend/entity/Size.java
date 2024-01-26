@@ -1,7 +1,9 @@
 package com.smarteshop_backend.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.io.Serializable;
@@ -18,7 +20,8 @@ public class Size implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty
+    @NotNull
+    @DecimalMin(value = "0.0", inclusive = true)
     private Double number;
 
     @ManyToMany(mappedBy = "sizes")

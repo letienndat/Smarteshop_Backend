@@ -25,7 +25,7 @@ import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
-public class ConfigSecurity {
+public class SecurityConfig {
     @Autowired
     private UserRepository userRepository;
 

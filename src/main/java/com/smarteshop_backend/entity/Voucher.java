@@ -1,8 +1,7 @@
 package com.smarteshop_backend.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.io.Serializable;
@@ -21,26 +20,30 @@ public class Voucher implements Serializable {
     private Long id;
 
     @NotBlank
-    private String pathImage;
-
-    @NotBlank
+    @Column(unique = true)
     private String code;
 
     @NotBlank
     private String name;
 
+    @NotBlank
+    private String pathImage;
+
     private String description;
 
-    @NotEmpty
-    private Double precentDiscount;
+    @NotNull
+    @DecimalMin(value = "0.0", inclusive = true)
+    @DecimalMax(value = "100.0", inclusive = true)
+    private Double percentDiscount;
 
-    @NotEmpty
     private Date expirationDate;
 
-    @NotEmpty
+    @NotNull
+    @DecimalMin(value = "0.0", inclusive = true)
     private Double minPriceApply;
 
-    @NotEmpty
+    @NotNull
+    @DecimalMin(value = "0.0", inclusive = true)
     private Double maxPriceDiscount;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -62,4 +65,9 @@ public class Voucher implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "id_category")
     )
     private List<Category> categoriesApply;
+
+    @ManyToMany(mappedBy = "vouchers")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<User> users;
 }

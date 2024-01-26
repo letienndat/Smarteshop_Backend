@@ -121,6 +121,8 @@ public class ShopCartController {
                 .map(productInShopCart -> modelMapper.map(productInShopCart, FormProductInShopCart.class))
                 .toList();
         formGetShopCart.setFormProductInShopCarts(formProductInShopCarts);
+        formGetShopCart.setUserId(user.getId());
+        formGetShopCart.setUsername(user.getAccount().getUsername());
 
         return ResponseEntity.ok(
                 new MessageResponse(TypeMessage.SUCCESS, "response_complete", formGetShopCart)
