@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -20,7 +21,7 @@ public class FormAddVoucher {
 
     private String name;
 
-    private String pathImage;
+    private MultipartFile image;
 
     private String description;
 

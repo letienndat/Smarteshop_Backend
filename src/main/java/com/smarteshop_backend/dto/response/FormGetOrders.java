@@ -11,9 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Builder
-public class FormGetShopCart {
-    private Long id;
+public class FormGetOrders {
     private Long userId;
     private String username;
-    private List<FormProductInShopCart> formProductInShopCarts;
+    private List<FormGetOrder> formGetOrders;
 }

@@ -1,9 +1,11 @@
 package com.smarteshop_backend.controller;
 
+import com.smarteshop_backend.const_app.ConstApp;
 import com.smarteshop_backend.dto.request.FormAddBrand;
 import com.smarteshop_backend.dto.response.*;
 import com.smarteshop_backend.entity.Brand;
 import com.smarteshop_backend.service.BrandService;
+import com.smarteshop_backend.util.FileStorageService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @EnableMethodSecurity
@@ -24,18 +29,38 @@ public class BrandController {
     private BrandService brandService;
 
     @Autowired
+    private FileStorageService fileStorageService;
+
+    @Autowired
     private ModelMapper modelMapper;
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add")
-    public ResponseEntity<MessageResponse> addBrand(@Valid @RequestBody FormAddBrand formAddBrand) {
+    public ResponseEntity<MessageResponse> addBrand(
+            @Valid @RequestPart("brand") FormAddBrand formAddBrand,
+            @RequestPart(name = "icon", required = false) MultipartFile icon
+    ) {
         if (brandService.checkName(formAddBrand.getName())) {
             return ResponseEntity.ok(
                     new MessageResponse(TypeMessage.FALD, "already_exists_brand_name", null)
             );
         }
 
-        Brand brand = new Brand(null, formAddBrand.getName(), formAddBrand.getPathIcon(), List.of(), List.of());
+        String pathIconLocal;
+        if (icon != null) {
+            formAddBrand.setIcon(icon);
+            try {
+                pathIconLocal = fileStorageService.storeFile(icon, ConstApp.PREFIX_PATH_ICON_BRAND);
+            } catch (IOException e) {
+                return ResponseEntity.ok(
+                        new MessageResponse(TypeMessage.FALD, "add_brand_fail_because_can_not_save_icon", null)
+                );
+            }
+        } else {
+            pathIconLocal = "/" + ConstApp.PREFIX_PATH_ICON_BRAND + "/" + ConstApp.PREFIX_PATH_DEFAULT;
+        }
+
+        Brand brand = new Brand(null, formAddBrand.getName(), pathIconLocal, new ArrayList<>(), new ArrayList<>());
         Brand brandSaved = brandService.save(brand);
 
         FormGetBrand formGetBrand = modelMapper.map(brandSaved, FormGetBrand.class);

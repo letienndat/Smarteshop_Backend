@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @EnableMethodSecurity
@@ -40,7 +41,7 @@ public class CategoryController {
             );
         }
 
-        Category category = new Category(null, formAddCategory.getName(), List.of(), List.of());
+        Category category = new Category(null, formAddCategory.getName(), new ArrayList<>(), new ArrayList<>());
         Category categorySaved = categoryService.save(category);
 
         FormGetCategory formGetCategory = modelMapper.map(categorySaved, FormGetCategory.class);

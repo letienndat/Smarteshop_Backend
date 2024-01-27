@@ -5,15 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-public class FormGetShopCart {
+public class FormGetProductInOrder {
     private Long id;
-    private Long userId;
-    private String username;
-    private List<FormProductInShopCart> formProductInShopCarts;
+    private Long productId;
+    private String productName;
+    private Double productPrice;
+    private Double productDiscount;
+    private Double sizeNumber;
+    private Integer quantity;
 }

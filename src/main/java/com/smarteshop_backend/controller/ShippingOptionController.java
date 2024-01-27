@@ -40,7 +40,8 @@ public class ShippingOptionController {
         }
         ShippingOption shippingOption = new ShippingOption(
                 null, formAddShippingOption.getName(),
-                formAddShippingOption.getPrice()
+                formAddShippingOption.getPrice(),
+                null
         );
         ShippingOption shippingOptionSaved = shippingOptionService.save(shippingOption);
         FormGetShippingOption formGetShoppingOption = modelMapper.map(

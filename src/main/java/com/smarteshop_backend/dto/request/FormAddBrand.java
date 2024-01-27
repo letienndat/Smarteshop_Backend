@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -11,5 +12,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class FormAddBrand {
     private String name;
-    private String pathIcon;
+    private MultipartFile icon;
 }

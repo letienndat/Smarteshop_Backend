@@ -1,5 +1,6 @@
 package com.smarteshop_backend.controller;
 
+import com.smarteshop_backend.const_app.ConstApp;
 import com.smarteshop_backend.dto.request.*;
 import com.smarteshop_backend.dto.response.FormGetUser;
 import com.smarteshop_backend.dto.response.MessageResponse;
@@ -103,11 +104,12 @@ public class AuthController {
                 null
         );
 
+        String pathAvatar = "/" + ConstApp.PREFIX_PATH_AVATAR + "/" + ConstApp.PREFIX_PATH_DEFAULT;
         User createUser = new User(
                 null,
                 formSignUp.getFullname(),
                 null,
-                "",
+                pathAvatar,
                 null,
                 null,
                 null,
@@ -156,6 +158,7 @@ public class AuthController {
         user.setShopCart(shopCartSaved);
         user.setProductFavorites(new ArrayList<>());
         user.setVouchers(new ArrayList<>());
+        user.setOrders(new ArrayList<>());
         User userSaved = userService.save(user);
         FormGetUser formGetUser = modelMapper.map(userSaved, FormGetUser.class);
 

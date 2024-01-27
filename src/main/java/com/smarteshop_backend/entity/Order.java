@@ -35,11 +35,13 @@ public class Order implements Serializable {
     @NotBlank
     private String postalCode;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Country country;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_shipping_option")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private ShippingOption shippingOption;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
@@ -56,10 +58,10 @@ public class Order implements Serializable {
     private Double subTotal;
 
     @DecimalMin(value = "0.0", inclusive = true)
-    private Double totalPayment;
+    private Double amountReduced;
 
     @DecimalMin(value = "0.0", inclusive = true)
-    private Double amountReduced;
+    private Double totalPayment;
 
     private Date dateOrder;
 }

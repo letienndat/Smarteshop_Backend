@@ -6,6 +6,8 @@ import com.smarteshop_backend.service.ProductInShopCartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductInShopCartServiceImpl implements ProductInShopCartService {
     @Autowired
@@ -19,5 +21,15 @@ public class ProductInShopCartServiceImpl implements ProductInShopCartService {
     @Override
     public void removeProductInShopCart(Long id) {
         productInShopCartRepository.deleteById(id);
+    }
+
+    @Override
+    public List<ProductInShopCart> findByIdIn(List<Long> ids) {
+        return productInShopCartRepository.findByIdIn(ids);
+    }
+
+    @Override
+    public void removeByIds(List<Long> ids) {
+        productInShopCartRepository.deleteByIdIn(ids);
     }
 }

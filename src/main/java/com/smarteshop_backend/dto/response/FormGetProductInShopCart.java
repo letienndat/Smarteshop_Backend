@@ -13,6 +13,8 @@ public class FormGetProductInShopCart {
     private Long id;
     private Long productId;
     private String productName;
+    private Double productPrice;
+    private Double productDiscount;
     private Double sizeNumber;
     private Integer quantity;
 }

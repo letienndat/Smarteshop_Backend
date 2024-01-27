@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
 public class FormAddProduct {
     private String name;
 
-    private String pathImage;
+    private MultipartFile image;
 
     private String description;
 
@@ -32,6 +33,6 @@ public class FormAddProduct {
     @DecimalMax(value = "100.0", inclusive = true, message = "Discount cannot be greater than 100")
     private Double discount;
 
-    private List<String> pathImageDemos;
+    private List<MultipartFile> imageDemos;
     private List<Double> sizes;
 }
