@@ -46,6 +46,15 @@ public class ProductController {
     @Autowired
     private ModelMapper modelMapper;
 
+    /**
+     * Add product
+     *
+     * @param formAddProduct
+     * @param image
+     * @param imageDemos
+     * @return
+     * @throws Exception
+     */
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add")
     public ResponseEntity<MessageResponse> addProduct(
@@ -166,6 +175,12 @@ public class ProductController {
         );
     }
 
+    /**
+     * Get detail product
+     *
+     * @param id
+     * @return
+     */
     @GetMapping("/details/{id}")
     public ResponseEntity<MessageResponse> showDetails(@Valid @PathVariable(name = "id") Long id) {
         try {

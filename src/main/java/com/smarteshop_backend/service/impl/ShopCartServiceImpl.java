@@ -19,16 +19,38 @@ public class ShopCartServiceImpl implements ShopCartService {
     @Autowired
     private ProductInShopCartService productInShopCartService;
 
+    /**
+     * Save shop cart
+     *
+     * @param shopCart
+     * @return
+     */
     @Override
     public ShopCart save(ShopCart shopCart) {
         return shopCartRepository.save(shopCart);
     }
 
+    /**
+     * Find shop cart by id
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
     @Override
     public ShopCart findById(Long id) throws Exception {
         return shopCartRepository.findById(id).orElseThrow(() -> new Exception("Cannot find shop cart with id = " + id));
     }
 
+    /**
+     * Check proudct and size in shop cart
+     *
+     * @param id
+     * @param idProduct
+     * @param size
+     * @return
+     * @throws Exception
+     */
     @Override
     public boolean checkProductAndSize(Long id, Long idProduct, Double size) throws Exception {
         ShopCart shopCart = findById(id);
@@ -41,6 +63,16 @@ public class ShopCartServiceImpl implements ShopCartService {
         return false;
     }
 
+    /**
+     * Update product in shop cart (update quantity)
+     *
+     * @param id
+     * @param idProduct
+     * @param size
+     * @param quantity
+     * @return
+     * @throws Exception
+     */
     @Override
     public ProductInShopCart addQuantity(Long id, Long idProduct, Double size, Integer quantity) throws Exception {
         ShopCart shopCart = findById(id);
@@ -58,6 +90,14 @@ public class ShopCartServiceImpl implements ShopCartService {
         return null;
     }
 
+    /**
+     * Remove product in shop cart
+     *
+     * @param id
+     * @param idProductInShopCart
+     * @return
+     * @throws Exception
+     */
     @Override
     public boolean removeProduct(Long id, Long idProductInShopCart) throws Exception {
         ShopCart shopCart = findById(id);

@@ -29,16 +29,33 @@ public class SecurityConfig {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Config PasswordEncoder
+     *
+     * @return
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Config UserDetailsService
+     *
+     * @return
+     */
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserServiceImpl(userRepository);
     }
 
+    /**
+     * Config SecurityFilterChain
+     *
+     * @param http
+     * @return
+     * @throws Exception
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -60,6 +77,11 @@ public class SecurityConfig {
                 .build();
     }
 
+    /**
+     * Config AuthenticationProvider
+     *
+     * @return
+     */
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
@@ -69,6 +91,11 @@ public class SecurityConfig {
         return daoAuthenticationProvider;
     }
 
+    /**
+     * Config CorsConfigurationSource
+     *
+     * @return
+     */
     private CorsConfigurationSource corsConfigurationSource() {
         final var configuration = new CorsConfiguration();
 

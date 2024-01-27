@@ -14,21 +14,47 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    /**
+     * Save product
+     *
+     * @param product
+     * @return
+     */
     @Override
     public Product save(Product product) {
         return productRepository.save(product);
     }
 
+    /**
+     * Find product by id
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
     @Override
     public Product findById(Long id) throws Exception {
         return productRepository.findById(id).orElseThrow(() -> new Exception("Cannot find product with id = " + id));
     }
 
+    /**
+     * Find all products
+     *
+     * @return
+     */
     @Override
     public List<Product> findAll() {
         return productRepository.findAll();
     }
 
+    /**
+     * Check exists size product
+     *
+     * @param id
+     * @param size
+     * @return
+     * @throws Exception
+     */
     @Override
     public boolean checkSizeInProduct(Long id, Double size) throws Exception {
         Product product = findById(id);

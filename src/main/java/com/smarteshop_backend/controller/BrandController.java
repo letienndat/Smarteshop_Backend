@@ -34,6 +34,13 @@ public class BrandController {
     @Autowired
     private ModelMapper modelMapper;
 
+    /**
+     * Add brand
+     *
+     * @param formAddBrand
+     * @param icon
+     * @return
+     */
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add")
     public ResponseEntity<MessageResponse> addBrand(
@@ -71,8 +78,14 @@ public class BrandController {
         );
     }
 
+    /**
+     * Get brand
+     *
+     * @param name
+     * @return
+     */
     @GetMapping
-    public ResponseEntity<MessageResponse> load(@Valid @RequestParam(name = "name", required = false) String name) {
+    public ResponseEntity<MessageResponse> getBrand(@Valid @RequestParam(name = "name", required = false) String name) {
         if (name == null) {
             List<Brand> brands = brandService.findAll();
             List<FormGetBrand> formGetBrands = brands.stream()

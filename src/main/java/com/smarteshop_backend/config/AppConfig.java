@@ -16,6 +16,11 @@ public class AppConfig {
         return uploadDir;
     }
 
+    /**
+     * Config ModelMapper
+     *
+     * @return
+     */
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();

@@ -25,6 +25,12 @@ public class AccountController {
     @Autowired
     private ModelMapper modelMapper;
 
+    /**
+     * Find product by username
+     *
+     * @param formFindAccount
+     * @return
+     */
     @GetMapping("/find-account")
     public ResponseEntity<MessageResponse> findAccount(@Valid @RequestBody FormFindAccount formFindAccount) {
         Account account = accountService.findAccountByUsername(formFindAccount.getUsername());
@@ -35,6 +41,12 @@ public class AccountController {
         );
     }
 
+    /**
+     * Get account and send code to mail while forgot password
+     *
+     * @param formFindAccount
+     * @return
+     */
     @GetMapping("/forgot-password-get-account")
     public ResponseEntity<MessageResponse> getAccountAndSendCode(@Valid @RequestBody FormFindAccount formFindAccount) {
         if (!accountService.existsAccountByUsername(formFindAccount.getUsername())) {
@@ -53,6 +65,13 @@ public class AccountController {
         );
     }
 
+    /**
+     * Send code to mail
+     *
+     * @param formSendCodeVerifyAccount
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/send-code")
     public ResponseEntity<MessageResponse> sendCodeVerifyAccount(@Valid @RequestBody FormSendCodeVerifyAccount formSendCodeVerifyAccount) throws Exception {
         if (!accountService.existsAccountByUsername(formSendCodeVerifyAccount.getUsername())) {
@@ -70,6 +89,12 @@ public class AccountController {
         );
     }
 
+    /**
+     * Validate code while forgot password
+     *
+     * @param formValidateCode
+     * @return
+     */
     @PostMapping("/validate-code-forgot-password")
     public ResponseEntity<MessageResponse> validateCodeForgotPassword(@Valid @RequestBody FormValidateCodeForgotPassword formValidateCode) {
         if (!accountService.existsAccountByUsername(formValidateCode.getUsername())) {

@@ -30,6 +30,12 @@ public class RoleController {
     @Autowired
     private ModelMapper modelMapper;
 
+    /**
+     * Add role
+     *
+     * @param formAddRole
+     * @return
+     */
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add")
     public ResponseEntity<MessageResponse> addRole(@Valid @RequestBody FormAddRole formAddRole) {

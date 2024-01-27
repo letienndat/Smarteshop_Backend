@@ -48,6 +48,13 @@ public class UserController {
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
+    /**
+     * Change avatar
+     *
+     * @param avatar
+     * @return
+     * @throws Exception
+     */
     @PutMapping("/change-avatar")
     public ResponseEntity<MessageResponse> changeAvatar(
             @Valid @RequestPart(value = "avatar", required = false) MultipartFile avatar
@@ -115,46 +122,24 @@ public class UserController {
     public ResponseEntity<MessageResponse> addProductFavoriteInUser(@Valid @RequestParam(name = "id") Long idProduct) throws Exception {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.getByUsername(username);
+        List<Product> products = user.getProductFavorites();
 
-        boolean checkExistsProductInProductFavorites = userService.checkIdProductFavorite(idProduct);
-
-        if (!checkExistsProductInProductFavorites) {
-            try {
-                Product product = productService.findById(idProduct);
-                List<Product> products = user.getProductFavorites();
-                products.add(product);
-                userService.save(user);
-
-                FormGetProductInFavorites formGetProductInFavorites = modelMapper.map(product, FormGetProductInFavorites.class);
-
-//                FormGetApp formGetApp = modelMapper.map(user, FormGetApp.class);
-//                List<FormRoleInApp> formRoleInApps = user.getAccount().getRoles()
-//                        .stream()
-//                        .map(role -> modelMapper.map(role, FormRoleInApp.class))
-//                        .toList();
-//
-//                formGetApp.setFormRoleInApps(formRoleInApps);
-//                formGetApp.setNumberProductShopCart(user.getShopCart().getProductInShopCarts().size());
-//                formGetApp.setNumberProductFavorite(user.getProductFavorites().size());
-//
-//                messagingTemplate.convertAndSend("/topic/load-app", formGetApp);
-
-                return ResponseEntity.ok(
-                        new MessageResponse(TypeMessage.SUCCESS, "add_product_in_list_favorite_complete", formGetProductInFavorites)
-                );
-            } catch (Exception e) {
-                return ResponseEntity.ok(
-                        new MessageResponse(TypeMessage.FALD, "not_exists_product_id", null)
-                );
+        boolean checkExistsProductInProductFavorites = false;
+        Product product = null;
+        for (Product product1 : products) {
+            if (product1.getId().equals(idProduct)) {
+                product = product1;
+                checkExistsProductInProductFavorites = true;
             }
         }
 
-        Product product = productService.findById(idProduct);
-        List<Product> products = user.getProductFavorites();
-        products.remove(product);
-        userService.save(user);
+        if (checkExistsProductInProductFavorites) {
+            products.remove(product);
+            userService.save(user);
 
-        FormGetProductInFavorites formGetProductInFavorites = modelMapper.map(product, FormGetProductInFavorites.class);
+            FormGetProductInFavorites formGetProductInFavorites = modelMapper.map(
+                    product, FormGetProductInFavorites.class
+            );
 
 //        FormGetApp formGetApp = modelMapper.map(user, FormGetApp.class);
 //        List<FormRoleInApp> formRoleInApps = user.getAccount().getRoles()
@@ -168,11 +153,51 @@ public class UserController {
 //
 //        messagingTemplate.convertAndSend("/topic/load-app", formGetApp);
 
-        return ResponseEntity.ok(
-                new MessageResponse(TypeMessage.SUCCESS, "remove_product_in_list_favorite_complete", formGetProductInFavorites)
-        );
+            return ResponseEntity.ok(
+                    new MessageResponse(
+                            TypeMessage.SUCCESS,
+                            "remove_product_in_list_favorite_complete",
+                            formGetProductInFavorites
+                    )
+            );
+        }
+        try {
+            product = productService.findById(idProduct);
+            products.add(product);
+            userService.save(user);
+
+            FormGetProductInFavorites formGetProductInFavorites = modelMapper.map(
+                    product, FormGetProductInFavorites.class
+            );
+
+//                FormGetApp formGetApp = modelMapper.map(user, FormGetApp.class);
+//                List<FormRoleInApp> formRoleInApps = user.getAccount().getRoles()
+//                        .stream()
+//                        .map(role -> modelMapper.map(role, FormRoleInApp.class))
+//                        .toList();
+//
+//                formGetApp.setFormRoleInApps(formRoleInApps);
+//                formGetApp.setNumberProductShopCart(user.getShopCart().getProductInShopCarts().size());
+//                formGetApp.setNumberProductFavorite(user.getProductFavorites().size());
+//
+//                messagingTemplate.convertAndSend("/topic/load-app", formGetApp);
+
+            return ResponseEntity.ok(
+                    new MessageResponse(TypeMessage.SUCCESS, "add_product_in_list_favorite_complete", formGetProductInFavorites)
+            );
+        } catch (Exception e) {
+            return ResponseEntity.ok(
+                    new MessageResponse(TypeMessage.FALD, "not_exists_product_id", null)
+            );
+        }
     }
 
+    /**
+     * Get list favorites
+     *
+     * @return
+     * @throws Exception
+     */
     @GetMapping("/get-favorites")
     public ResponseEntity<MessageResponse> getFavoritesList() throws Exception {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -191,22 +216,52 @@ public class UserController {
         );
     }
 
-    @GetMapping("/get-vouchers")
-    public ResponseEntity<MessageResponse> getVouchersList() throws Exception {
+    /**
+     * Get voucher
+     *
+     * @return
+     * @throws Exception
+     */
+    @GetMapping("/get-voucher")
+    public ResponseEntity<MessageResponse> getVoucher(
+            @RequestParam(name = "code", required = false) String code
+    ) throws Exception {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.getByUsername(username);
-        FormGetVouchers formGetVouchers = modelMapper.map(user, FormGetVouchers.class);
+        List<Voucher> vouchers = user.getVouchers();
+        if (code == null) {
+            FormGetVouchers formGetVouchers = modelMapper.map(user, FormGetVouchers.class);
 
-        List<FormGetVoucher> vouchers = user.getVouchers().stream()
-                .map(voucher -> modelMapper.map(voucher, FormGetVoucher.class))
-                .toList();
-        formGetVouchers.setFormGetVouchers(vouchers);
+            List<FormGetVoucher> formGetVoucherList = vouchers.stream()
+                    .map(voucher -> modelMapper.map(voucher, FormGetVoucher.class))
+                    .toList();
+            formGetVouchers.setFormGetVouchers(formGetVoucherList);
 
+            return ResponseEntity.ok(
+                    new MessageResponse(TypeMessage.SUCCESS, "response_complete", formGetVouchers)
+            );
+        }
+        code = code.trim();
+        for (Voucher voucher : vouchers) {
+            if (voucher.getCode().equals(code)) {
+                FormGetVoucher formGetVoucher = modelMapper.map(voucher, FormGetVoucher.class);
+                return ResponseEntity.ok(
+                        new MessageResponse(TypeMessage.SUCCESS, "response_complete", formGetVoucher)
+                );
+            }
+        }
         return ResponseEntity.ok(
-                new MessageResponse(TypeMessage.SUCCESS, "response_complete", formGetVouchers)
+                new MessageResponse(TypeMessage.FALD, "not_exists_voucher_code_in_list_voucher", null)
         );
     }
 
+    /**
+     * Add voucher
+     *
+     * @param code
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/add-voucher")
     public ResponseEntity<MessageResponse> addVoucher(@Valid @RequestParam(name = "code") String code) throws Exception {
         code = code.trim();
@@ -234,6 +289,13 @@ public class UserController {
         );
     }
 
+    /**
+     * Remove voucher
+     *
+     * @param code
+     * @return
+     * @throws Exception
+     */
     @DeleteMapping("/remove-voucher")
     public ResponseEntity<MessageResponse> removeVoucher(@Valid @RequestParam(name = "code") String code) throws Exception {
         code = code.trim();

@@ -13,21 +13,44 @@ public class ProductInShopCartServiceImpl implements ProductInShopCartService {
     @Autowired
     private ProductInShopCartRepository productInShopCartRepository;
 
+    /**
+     * Find product in shop cart by id
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
     @Override
     public ProductInShopCart findById(Long id) throws Exception {
         return productInShopCartRepository.findById(id).orElseThrow(() -> new Exception("Cannot find product in shop cart with id = " + id));
     }
 
+    /**
+     * Remove product in shop cart by id
+     *
+     * @param id
+     */
     @Override
     public void removeProductInShopCart(Long id) {
         productInShopCartRepository.deleteById(id);
     }
 
+    /**
+     * Find list product in shop cart by list id
+     *
+     * @param ids
+     * @return
+     */
     @Override
     public List<ProductInShopCart> findByIdIn(List<Long> ids) {
         return productInShopCartRepository.findByIdIn(ids);
     }
 
+    /**
+     * Remove list product in shop cart by list id
+     *
+     * @param ids
+     */
     @Override
     public void removeByIds(List<Long> ids) {
         productInShopCartRepository.deleteByIdIn(ids);

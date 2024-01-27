@@ -34,6 +34,13 @@ public class BillingAddressController {
     @Autowired
     private ModelMapper modelMapper;
 
+    /**
+     * Get billing address
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
     @GetMapping
     public ResponseEntity<MessageResponse> getBillingAddress(@Valid @RequestParam(name = "id", required = false) Long id) throws Exception {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -71,6 +78,13 @@ public class BillingAddressController {
         );
     }
 
+    /**
+     * Save billing address
+     *
+     * @param formAddBillingAddress
+     * @return
+     * @throws Exception
+     */
     @PostMapping
     public ResponseEntity<MessageResponse> saveBillingAddress(@Valid @RequestBody FormAddBillingAddress formAddBillingAddress) throws Exception {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -102,6 +116,13 @@ public class BillingAddressController {
         );
     }
 
+    /**
+     * Update billing address
+     *
+     * @param formUpdateBillingAddress
+     * @return
+     * @throws Exception
+     */
     @PutMapping
     public ResponseEntity<MessageResponse> updateBillingAddress(@Valid @RequestBody FormUpdateBillingAddress formUpdateBillingAddress) throws Exception {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -143,6 +164,13 @@ public class BillingAddressController {
         );
     }
 
+    /**
+     * Remove billing address
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
     @DeleteMapping
     public ResponseEntity<MessageResponse> removeBillingAddress(@Valid @RequestParam(name = "id") Long id) throws Exception {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();

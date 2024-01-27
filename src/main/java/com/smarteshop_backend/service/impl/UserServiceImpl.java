@@ -18,6 +18,13 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private final UserRepository userRepository;
 
+    /**
+     * Load user by username (return UserDetails object)
+     *
+     * @param username
+     * @return
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByAccountUsername(username);
@@ -28,6 +35,13 @@ public class UserServiceImpl implements UserService {
                 );
     }
 
+    /**
+     * Get user by username (return User object)
+     *
+     * @param username
+     * @return
+     * @throws Exception
+     */
     @Override
     public User getByUsername(String username) throws Exception {
         User user = userRepository.findByAccountUsername(username)
@@ -37,13 +51,14 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    /**
+     * Save user
+     *
+     * @param user
+     * @return
+     */
     @Override
     public User save(User user) {
         return userRepository.save(user);
-    }
-
-    @Override
-    public boolean checkIdProductFavorite(Long id) {
-        return userRepository.existsByProductFavoritesId(id);
     }
 }

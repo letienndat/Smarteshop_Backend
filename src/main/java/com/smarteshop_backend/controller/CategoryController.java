@@ -32,6 +32,12 @@ public class CategoryController {
     @Autowired
     private ModelMapper modelMapper;
 
+    /**
+     * Add category
+     *
+     * @param formAddCategory
+     * @return
+     */
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add")
     public ResponseEntity<MessageResponse> addCategory(@Valid @RequestBody FormAddCategory formAddCategory) {

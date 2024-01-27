@@ -11,6 +11,12 @@ public class ImageDemoServiceImpl implements ImageDemoService {
     @Autowired
     private ImageDemoRepository imageDemoRepository;
 
+    /**
+     * Save image demo product
+     *
+     * @param imageDemo
+     * @return
+     */
     @Override
     public ImageDemo save(ImageDemo imageDemo) {
         return imageDemoRepository.save(imageDemo);

@@ -21,6 +21,13 @@ public class ImageController {
     @Autowired
     private FileStorageService fileStorageService;
 
+    /**
+     * Get image local
+     *
+     * @param subfolder
+     * @param fileName
+     * @return
+     */
     @GetMapping("/{subfolder}/{fileName:.+}")
     public ResponseEntity<Resource> getImage(@PathVariable String subfolder, @PathVariable String fileName) {
         Resource resource = fileStorageService.loadFileAsResource(fileName, subfolder);

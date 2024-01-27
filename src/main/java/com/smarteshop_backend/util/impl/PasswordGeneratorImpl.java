@@ -9,6 +9,12 @@ import java.security.SecureRandom;
 public class PasswordGeneratorImpl implements PasswordGenerator {
     private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*-_";
 
+    /**
+     * Generate password random
+     *
+     * @param length
+     * @return
+     */
     @Override
     public String generatePassword(int length) {
         StringBuilder password = new StringBuilder();

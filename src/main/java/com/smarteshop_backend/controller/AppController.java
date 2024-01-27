@@ -27,8 +27,13 @@ public class AppController {
     @Autowired
     private ModelMapper modelMapper;
 
+    /**
+     * Load home
+     *
+     * @return
+     */
     @GetMapping
-    public ResponseEntity<MessageResponse> load(){
+    public ResponseEntity<MessageResponse> load() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
         try {

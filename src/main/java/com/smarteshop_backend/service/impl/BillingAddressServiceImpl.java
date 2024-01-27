@@ -10,6 +10,11 @@ public class BillingAddressServiceImpl implements BillingAddressService {
     @Autowired
     private BillingAddressRepository billingAddressRepository;
 
+    /**
+     * Remove billing address
+     *
+     * @param id
+     */
     @Override
     public void removeBillingAddress(Long id) {
         billingAddressRepository.deleteById(id);

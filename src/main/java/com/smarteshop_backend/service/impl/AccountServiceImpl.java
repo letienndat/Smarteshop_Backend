@@ -29,6 +29,12 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private PasswordGenerator passwordGenerator;
 
+    /**
+     * Register account
+     *
+     * @param account
+     * @return
+     */
     @Override
     public Account registerAccount(Account account) {
         account.setVerificationCode(generateVerificationCode());
@@ -41,6 +47,11 @@ public class AccountServiceImpl implements AccountService {
         return account;
     }
 
+    /**
+     * Send code verification to mail
+     *
+     * @param account
+     */
     @Override
     public void sendVerificationEmail(Account account) {
         SimpleMailMessage message = new SimpleMailMessage();
@@ -51,6 +62,11 @@ public class AccountServiceImpl implements AccountService {
         javaMailSender.send(message);
     }
 
+    /**
+     * Resend code verification to mail
+     *
+     * @param account
+     */
     @Override
     public void resendVerificationEmail(Account account) {
         account.setVerificationCode(generateVerificationCode());
@@ -60,6 +76,12 @@ public class AccountServiceImpl implements AccountService {
         sendVerificationEmail(account);
     }
 
+    /**
+     * Forgot password
+     *
+     * @param account
+     * @return
+     */
     @Override
     public Account forgotPassword(Account account) {
         account.setVerificationCode(generateVerificationCode());
@@ -71,6 +93,11 @@ public class AccountServiceImpl implements AccountService {
         return account;
     }
 
+    /**
+     * Send code forgot password to mail
+     *
+     * @param account
+     */
     @Override
     public void sendForgotPasswordEmail(Account account) {
         SimpleMailMessage message = new SimpleMailMessage();
@@ -81,6 +108,12 @@ public class AccountServiceImpl implements AccountService {
         javaMailSender.send(message);
     }
 
+    /**
+     * Create and save new password
+     *
+     * @param account
+     * @return
+     */
     @Override
     public Account newPassword(Account account) {
         Random random = new Random();
@@ -94,6 +127,12 @@ public class AccountServiceImpl implements AccountService {
         return account;
     }
 
+    /**
+     * Send new password to mail
+     *
+     * @param account
+     * @param newPassword
+     */
     @Override
     public void sendNewPasswordEmail(Account account, String newPassword) {
         SimpleMailMessage message = new SimpleMailMessage();
@@ -104,6 +143,13 @@ public class AccountServiceImpl implements AccountService {
         javaMailSender.send(message);
     }
 
+    /**
+     * Verify account
+     *
+     * @param username
+     * @param verificationCode
+     * @return
+     */
     @Override
     public boolean verifyAccount(String username, String verificationCode) {
         Account account = accountRepository.findById(username).orElseThrow(
@@ -130,17 +176,34 @@ public class AccountServiceImpl implements AccountService {
         return false;
     }
 
+    /**
+     * Generate verification code
+     *
+     * @return
+     */
     private String generateVerificationCode() {
         int code = Math.abs(UUID.randomUUID().hashCode() % 900000) + 100000;
 
         return String.valueOf(code);
     }
 
+    /**
+     * Check exists account by username
+     *
+     * @param username
+     * @return
+     */
     @Override
     public boolean existsAccountByUsername(String username) {
         return accountRepository.existsByUsername(username);
     }
 
+    /**
+     * Find account by username
+     *
+     * @param username
+     * @return
+     */
     @Override
     public Account findAccountByUsername(String username) {
         return accountRepository.findByUsername(username);

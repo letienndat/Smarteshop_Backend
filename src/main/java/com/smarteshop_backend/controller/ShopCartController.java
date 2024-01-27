@@ -43,6 +43,7 @@ public class ShopCartController {
 
     /**
      * Add product in shop cart
+     *
      * @param formAddProductInShopCart
      * @return
      * @throws Exception
@@ -86,7 +87,7 @@ public class ShopCartController {
         try {
             boolean checkSizeInProduct = productService.checkSizeInProduct(formAddProductInShopCart.getId(), formAddProductInShopCart.getSize());
             if (!checkSizeInProduct) {
-                throw new  Exception();
+                throw new Exception();
             }
             Size sizeFind = sizeService.findBySize(formAddProductInShopCart.getSize());
             productInShopCart.setSize(sizeFind);
@@ -108,6 +109,12 @@ public class ShopCartController {
         );
     }
 
+    /**
+     * Get shopcart
+     *
+     * @return
+     * @throws Exception
+     */
     @GetMapping
     public ResponseEntity<MessageResponse> getShopCart() throws Exception {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -129,8 +136,15 @@ public class ShopCartController {
         );
     }
 
+    /**
+     * Remove product in shop cart
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
     @DeleteMapping
-    public ResponseEntity<MessageResponse> deleteProduct(@Valid @RequestParam(name = "id") Long id) throws Exception {
+    public ResponseEntity<MessageResponse> removeProduct(@Valid @RequestParam(name = "id") Long id) throws Exception {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.getByUsername(username);
         ShopCart shopCart = user.getShopCart();

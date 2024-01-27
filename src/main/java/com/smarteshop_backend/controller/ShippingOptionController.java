@@ -28,6 +28,12 @@ public class ShippingOptionController {
     @Autowired
     private ModelMapper modelMapper;
 
+    /**
+     * Add shipping option
+     *
+     * @param formAddShippingOption
+     * @return
+     */
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<MessageResponse> addShippingOption(@Valid @RequestBody FormAddShippingOption formAddShippingOption) {
@@ -54,6 +60,11 @@ public class ShippingOptionController {
         );
     }
 
+    /**
+     * Get shipping option
+     *
+     * @return
+     */
     @GetMapping
     public ResponseEntity<MessageResponse> getShippingOptions() {
         List<FormGetShippingOption> formGetShippingOptions = shippingOptionService.findAll()

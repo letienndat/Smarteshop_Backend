@@ -30,6 +30,11 @@ public class HomeController {
     @Autowired
     private BrandService brandService;
 
+    /**
+     * Load home
+     * @return
+     * @throws Exception
+     */
     @GetMapping
     public ResponseEntity<MessageResponse> load() throws Exception {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();

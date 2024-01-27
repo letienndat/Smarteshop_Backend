@@ -46,6 +46,13 @@ public class AuthController {
     @Autowired
     private ModelMapper modelMapper;
 
+    /**
+     * Signin account
+     *
+     * @param formAccount
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/signin")
     public ResponseEntity<MessageResponse> signin(@Valid @RequestBody FormSignin formAccount) throws Exception {
         Authentication authentication = authenticationProvider.authenticate(
@@ -76,6 +83,12 @@ public class AuthController {
                 );
     }
 
+    /**
+     * Signup account
+     *
+     * @param formSignUp
+     * @return
+     */
     @PostMapping("/signup")
     public ResponseEntity<MessageResponse> signup(@Valid @RequestBody FormSignUp formSignUp) {
         if (accountService.existsAccountByUsername(formSignUp.getUsername())) {
@@ -129,6 +142,13 @@ public class AuthController {
         );
     }
 
+    /**
+     * Active account
+     *
+     * @param formActiveAccount
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/active-account")
     public ResponseEntity<MessageResponse> activeAccount(@Valid @RequestBody FormActiveAccount formActiveAccount) throws Exception {
         if (!accountService.existsAccountByUsername(formActiveAccount.getUsername())) {
@@ -167,6 +187,13 @@ public class AuthController {
         );
     }
 
+    /**
+     * Send code to mail active account
+     *
+     * @param formSendCodeVerifyAccount
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/send-code")
     public ResponseEntity<MessageResponse> sendCodeVerifyAccount(@Valid @RequestBody FormSendCodeVerifyAccount formSendCodeVerifyAccount) throws Exception {
         if (!accountService.existsAccountByUsername(formSendCodeVerifyAccount.getUsername())) {

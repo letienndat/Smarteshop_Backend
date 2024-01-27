@@ -47,6 +47,13 @@ public class VoucherController {
     @Autowired
     private ModelMapper modelMapper;
 
+    /**
+     * Add voucher
+     *
+     * @param formAddVoucher
+     * @param image
+     * @return
+     */
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<MessageResponse> addVoucher(

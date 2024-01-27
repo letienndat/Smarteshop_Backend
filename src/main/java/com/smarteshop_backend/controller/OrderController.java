@@ -38,6 +38,13 @@ public class OrderController {
     @Autowired
     private ModelMapper modelMapper;
 
+    /**
+     * Save order
+     *
+     * @param formAddOrder
+     * @return
+     * @throws Exception
+     */
     @PostMapping
     public ResponseEntity<MessageResponse> saveOrder(@Valid @RequestBody FormAddOrder formAddOrder) throws Exception {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -167,6 +174,13 @@ public class OrderController {
         );
     }
 
+    /**
+     * Get order
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
     @GetMapping
     public ResponseEntity<MessageResponse> getOrder(@RequestParam(name = "id", required = false) Long id) throws Exception {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
